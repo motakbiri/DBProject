@@ -133,7 +133,7 @@
     <div class="page-header">
         <h1>Query</h1>
     </div>
-    <form action="./db.php" method="post">
+    <form action="index.php" method="post">
         <div class="form-group">
             <div for="pwd">Query:</div>
             <textarea rows="6" cols="100" name="query"></textarea>
