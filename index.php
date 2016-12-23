@@ -151,11 +151,11 @@
         }
         else
         {
-            $query = "select * from orders where username='" . $_POST['showorders'] . "'";
+            $query = "select productcode, name, buytime from orders natural join sensors where username='" . $_POST['showorders'] . "'";
             $result = $conn->query($query);
             if(gettype($result)=='object')
             {
-                echo '<div class="page-header"><h1>Table</h1></div>';
+                echo '<div class="page-header"><h1>Orders for ' . $_POST['showorders'] . '</h1></div>';
                 echo '<table class="table table-striped">';
                 if ($result->num_rows > 0)
                 {
@@ -190,9 +190,66 @@
                 ';
             }
         }
-
-
     }
+
+    if(isset($_POST['invoicesum']))
+    {
+        // Create connection
+        $conn = new mysqli(SERVER_NAME, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
+
+        // Check connection
+        if ($conn->connect_error)
+        {
+            echo '
+                <div class="alert alert-danger" role="alert">
+                    <strong>ای بابا!</strong>بد شد.
+                </div>
+                ';
+        }
+        else
+        {
+            $query = "select sum(price) as totalSum from (select price from orders natural join sensors where orders.username='" . $_POST['invoicesum'] . "') as prices";
+            $result = $conn->query($query);
+            if(gettype($result)=='object')
+            {
+                echo '<div class="page-header"><h1>sum of orders for ' . $_POST['invoicesum'] . '</h1></div>';
+                echo '<table class="table table-striped">';
+                if ($result->num_rows > 0)
+                {
+                    $row = $result->fetch_assoc();
+                    echo '<thead>';
+                    foreach ($row as $key => $item) 
+                    {
+                        echo '<th>' . $key . '</th>';
+                    }
+                    echo '</thead><tbody>';
+                    do 
+                    {
+                        echo '<tr>';
+                        foreach ($row as $item) 
+                        {
+                            echo '<td>' . $item . '</td>';
+                        }
+                        echo '</tr>';
+
+                    } 
+                    while ($row = $result->fetch_assoc());
+                    echo '</tbody>';
+                }
+                echo '</table>';
+            }
+            else
+            {
+                echo '
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Oh snap!</strong> Your Query Wasn\'t Successfully Executed.
+                    </div>
+                ';
+            }
+        }
+    }
+
+
     ?>
 
     <div class="page-header">
@@ -200,7 +257,6 @@
     </div>
     <form action="index.php" method="post">
         <div class="form-group">
-            <!-- <div for="pwd">Query:</div> -->
             <textarea class="form-control" rows="6" name="query"></textarea>
         </div>
         <button type="button submit" class="btn btn-success">Execute</button>
@@ -211,8 +267,6 @@
         <h1>Actions</h1>
     </div>
 
-    <!-- <button type="button" class="btn btn-default">Default</button> -->
-
     <form action="index.php" method="post">
         <div class="form-group">
             <label for="usr">Username:</label>
@@ -221,7 +275,19 @@
         <button type="button submit" class="btn btn-primary">show orders for this user</button>
     </form>
 
-    <br><br><br>
+    <br><br>
+
+    <form action="index.php" method="post">
+        <div class="form-group">
+            <label for="usr">Username:</label>
+            <input type="text" class="form-control" id="usr" name="invoicesum">
+        </div>
+        <button type="button submit" class="btn btn-primary">show sum of orders for this user</button>
+    </form>
+
+    <br><br>
+
+
     <button type="button" class="btn btn-primary">Primary</button>
     <br>
     <button type="button" class="btn btn-success">Success</button>
