@@ -1,0 +1,12 @@
+# local files
+
+*.iml
+.idea
+wamplangues
+wampthemes
+node_modules/
+index.php
+test_sockets.php
+testmysql.php
+favicon.ico
+add_vhost.php
