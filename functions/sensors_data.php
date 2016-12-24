@@ -220,7 +220,7 @@ require_once '../variables.php';
     <a href="invoice.php" class="btn btn-info">Invoice Of Users</a>
     <a href="sensors_data.php" class="btn btn-success">Sensors Data</a>
     <a href="increase.php" class="btn btn-primary">Increase Sensors</a>
-
+    <a href="buy.php" class="btn btn-danger">Buy</a>
 
 </div>
 

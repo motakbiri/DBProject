@@ -39,6 +39,8 @@ require_once 'variables.php';
         <a href="functions/invoice.php" class="btn btn-info">Invoice Of Users</a>
         <a href="functions/sensors_data.php" class="btn btn-success">Sensors Data</a>
         <a href="functions/increase.php" class="btn btn-primary">Increase Sensors</a>
+        <a href="functions/buy.php" class="btn btn-danger">Buy</a>
+
     </div>
     <?php
     if (isset($_POST['query'])) {
